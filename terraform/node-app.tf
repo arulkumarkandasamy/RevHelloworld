@@ -86,8 +86,8 @@ resource "aws_security_group" "node_app_websg" {
 resource "aws_security_group" "elbsg" {
   name = "security_group_for_elb"
   ingress {
-    from_port = 8080
-    to_port = 8080
+    from_port = 0
+    to_port = 0
     protocol = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -112,7 +112,7 @@ resource "aws_elb" "elb1" {
   security_groups = ["${aws_security_group.elbsg.id}"]
   
   listener {
-    instance_port = 8080
+    instance_port = 8090
     instance_protocol = "http"
     lb_port = 8080
     lb_protocol = "http"
@@ -122,7 +122,7 @@ resource "aws_elb" "elb1" {
     healthy_threshold = 2
     unhealthy_threshold = 2
     timeout = 3
-    target = "HTTP:8080/"
+    target = "HTTP:8090/"
       interval = 30
   }
 
