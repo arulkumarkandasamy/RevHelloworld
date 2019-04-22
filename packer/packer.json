@@ -20,11 +20,6 @@
         ]
     },
     {
-      "type": "file",
-      "source": "packer/roles/",
-      "destination": "/usr/share/ansible/roles"
-    },
-    {
       "type": "ansible-local",
       "playbook_file": "packer/ansible-playbook.yml"
     },
