@@ -131,6 +131,6 @@ resource "aws_elb" "elb1" {
 }
 
 resource "aws_key_pair" "arulkeypair" {
-  key_name   = "arulkeypair"
+  key_name   = "arulkeypair1"
   public_key = "${var.id_rsa_pub}"
 }
