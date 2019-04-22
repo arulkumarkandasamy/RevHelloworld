@@ -66,9 +66,15 @@ resource "aws_autoscaling_group" "node_app_asg" {
 resource "aws_security_group" "node_app_websg" {
   name = "security_group_for_node_app_websg"
   ingress {
-    from_port = 8080
-    to_port = 8080
-    protocol = "tcp"
+    from_port = 0
+    to_port = 0
+    protocol = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  egress {
+    from_port = 0
+    to_port = 0
+    protocol = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
