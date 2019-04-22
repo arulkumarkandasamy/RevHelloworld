@@ -43,6 +43,7 @@ pipeline {
             sh '''
                cd terraform
                terraform init -var access_key=${AWS_KEY} -var secret_key=${AWS_SECRET}
+               chown jenkins:jenkins terraform.tfstate
                terraform apply -auto-approve -var access_key=${AWS_KEY} -var secret_key=${AWS_SECRET}
 
                /* git add terraform.tfstate
