@@ -13,8 +13,8 @@ pipeline {
     stage('Build') {
       steps {
           sh 'mvn package'
-          sh 'rm -f packer/bin/*.jar'
-          sh 'cp -r target/*.jar packer/bin'
+          sh 'rm -f packer/*.jar'
+          sh 'cp -r target/*.jar packer'
         /* withAWS(endpointUrl:'https://s3.amazonaws.com', credentials:'ada90a34-30ef-47fb-8a7f-a97fe69ff93f'){
 			s3Upload(file:'helloworld-1.0.0.jar', bucket:'arulrevoulttest', path:'revhelloworld/target/helloworld-1.0.0')
 		} */
