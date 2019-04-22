@@ -37,6 +37,12 @@ public class UserController {
         this.userNameValidator = userNameValidator;
         this.birthdayValidator = birthdayValidator;
     }
+    
+    @GetMapping(value = "/healthcheck", produces = "application/json; charset=utf-8")
+	public String getHealthCheck()
+	{
+		return "{ \"isWorking\" : true }";
+	}
 	
 	@GetMapping("/hello/{user_name}")
 	public ResponseEntity<?> getUser(@PathVariable(value = "user_name") String userName) {
