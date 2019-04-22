@@ -12,10 +12,10 @@ pipeline {
 
     stage('Build') {
       steps {
-        dir("${JENKINS_HOME}/workspace/revhelloworld/") {
+        dir("${JENKINS_HOME}/") {
           sh 'mvn package'
-          sh 'rm -f packer/bin/*.jar'
-          sh 'cp -r target/*.jar packer/bin'
+          sh 'rm -f workspace/revhelloworld/packer/bin/*.jar'
+          sh 'cp -r workspace/revhelloworld/target/*.jar packer/bin'
         }
         /* withAWS(endpointUrl:'https://s3.amazonaws.com', credentials:'ada90a34-30ef-47fb-8a7f-a97fe69ff93f'){
 			s3Upload(file:'helloworld-1.0.0.jar', bucket:'arulrevoulttest', path:'revhelloworld/target/helloworld-1.0.0')
