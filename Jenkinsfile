@@ -2,7 +2,7 @@ pipeline {
   agent {
        docker {
           image 'arulkumar1967/build-arul-container:latest'
-          args '-u root:sudo -v $HOME/workspace/revhelloworld:/revhelloworld'
+          args '-u root:sudo -v $HOME/workspace/test:/test'
         }
     }
   environment {
