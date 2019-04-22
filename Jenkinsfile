@@ -2,7 +2,7 @@ pipeline {
   agent {
        docker {
           image 'arulkumar1967/build-arul-container:latest'
-          args '-u root:sudo -v $HOME/workspace/helloworld:/helloworld'
+          args '-u root:sudo -v $HOME/workspace/revhelloworld:/revhelloworld'
         }
     }
   environment {
@@ -12,13 +12,13 @@ pipeline {
 
     stage('Build') {
       steps {
-        dir("${JENKINS_HOME}/workspace/helloworld/") {
+        dir("${JENKINS_HOME}/workspace/revhelloworld/") {
           sh 'mvn package'
           sh 'rm -f packer/bin/*.jar'
           sh 'cp -r target/*.jar packer/bin'
         }
         /* withAWS(endpointUrl:'https://s3.amazonaws.com', credentials:'ada90a34-30ef-47fb-8a7f-a97fe69ff93f'){
-			s3Upload(file:'helloworld-1.0.0.jar', bucket:'arulrevoulttest', path:'helloworld/target/helloworld-1.0.0')
+			s3Upload(file:'helloworld-1.0.0.jar', bucket:'arulrevoulttest', path:'revhelloworld/target/helloworld-1.0.0')
 		} */
 		}
 
@@ -49,7 +49,7 @@ pipeline {
 
                /* git add terraform.tfstate
                git -c user.name="Arulkumar Kandasamy" -c user.email="karul43@yahoo.co.in" commit -m "terraform state update from Jenkins"
-               git push https://${REPO_USER}:${REPO_PASS}@github.com/arulkumarkandasamy/revtest_practice1.git master */
+               git push https://${REPO_USER}:${REPO_PASS}@github.com/arulkumarkandasamy/revhelloworld.git master */
             '''
         }
       }
