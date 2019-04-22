@@ -25,7 +25,7 @@
     },
     {
       "type": "file",
-      "source": "packer/bin/",
+      "source": "packer/",
       "destination": "/home/ubuntu/spring-boot-app"
     }
   ],
