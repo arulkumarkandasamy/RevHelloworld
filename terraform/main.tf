@@ -16,7 +16,7 @@ provider "aws" {
 //  }
 //}
 
-data "aws_ami" "node_app_ami" {
+data "aws_ami" "rev_test_ami" {
   most_recent = true
 
   filter {
@@ -37,20 +37,20 @@ data "template_file" "user_data" {
   template = "${file(var.user_data_file_path)}"
 }
 
-resource "aws_launch_configuration" "node_app_lc" {
-  image_id      = "${data.aws_ami.node_app_ami.id}"
+resource "aws_launch_configuration" "rev_test_lc" {
+  image_id      = "${data.aws_ami.rev_test_ami.id}"
   instance_type = "t2.micro"
   key_name = "${aws_key_pair.arulkeypair.key_name}"
-  security_groups = ["${aws_security_group.node_app_websg.id}"]
+  security_groups = ["${aws_security_group.rev_test_websg.id}"]
   lifecycle {
     create_before_destroy = true
   }
   user_data = "${data.template_file.user_data.rendered}"
 }
 
-resource "aws_autoscaling_group" "node_app_asg" {
-  name                 = "terraform-asg-node-app-${aws_launch_configuration.node_app_lc.name}"
-  launch_configuration = "${aws_launch_configuration.node_app_lc.name}"
+resource "aws_autoscaling_group" "rev_test_asg" {
+  name                 = "terraform-asg-node-app-${aws_launch_configuration.rev_test_lc.name}"
+  launch_configuration = "${aws_launch_configuration.rev_test_lc.name}"
   availability_zones = ["${data.aws_availability_zones.allzones.names}"]
   min_size             = 1
   max_size             = 2
@@ -63,54 +63,13 @@ resource "aws_autoscaling_group" "node_app_asg" {
   }
 }
 
-resource "aws_security_group" "node_app_websg" {
-  name = "security_group_for_node_app_websg"
-  ingress {
-    from_port = 0
-    to_port = 0
-    protocol = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  egress {
-    from_port = 0
-    to_port = 0
-    protocol = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  lifecycle {
-    create_before_destroy = true
-  }
-}
-
-resource "aws_security_group" "elbsg" {
-  name = "security_group_for_elb"
-  ingress {
-    from_port = 0
-    to_port = 0
-    protocol = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port = 0
-    to_port = 0
-    protocol = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  lifecycle {
-    create_before_destroy = true
-  }
-}
-
 data "aws_availability_zones" "allzones" {}
 
 resource "aws_elb" "elb1" {
-  name = "terraform-elb-node-app"
+  name = "terraform-elb-rev-test"
   availability_zones = ["${data.aws_availability_zones.allzones.names}"]
   security_groups = ["${aws_security_group.elbsg.id}"]
-  
+
   listener {
     instance_port = 8090
     instance_protocol = "http"
@@ -132,7 +91,7 @@ resource "aws_elb" "elb1" {
   connection_draining_timeout = 400
 
   tags {
-    Name = "terraform - elb - node-app"
+    Name = "terraform - elb - rev-test"
   }
 }
 
