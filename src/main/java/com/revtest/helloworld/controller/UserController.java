@@ -13,6 +13,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,6 +52,7 @@ public class UserController {
 		return "{ \"isWorking\" : true }";
 	}
     
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @GetMapping(value = "/createtable", produces = "application/json; charset=utf-8")
 	public String createUserTable()
 	{
