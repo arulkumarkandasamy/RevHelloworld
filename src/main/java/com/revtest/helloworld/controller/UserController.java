@@ -5,6 +5,9 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +32,9 @@ public class UserController {
 	@Autowired
 	UserRepository userRepository;
 	
+	@PersistenceContext
+	EntityManager entityManager;
+	
 	private final UserNameValidator userNameValidator;
 	private final BirthdayValidator birthdayValidator;
 
@@ -43,6 +49,20 @@ public class UserController {
 	{
 		return "{ \"isWorking\" : true }";
 	}
+    
+    @GetMapping(value = "/createtable", produces = "application/json; charset=utf-8")
+	public String createUserTable()
+	{
+        Query query = entityManager.createNativeQuery("CREATE TABLE users ( id smallint unsigned not null auto_increment, user_name varchar(20), date_of_birth varchar(20), constraint pk_example primary key (id) ) ");
+        int res = query.executeUpdate();
+        if (res < 0) {
+            return "Cannot create table";
+        }
+        return "Table users created successfully";
+
+	}
+    
+
 	
 	@GetMapping("/hello/{user_name}")
 	public ResponseEntity<?> getUser(@PathVariable(value = "user_name") String userName) {
