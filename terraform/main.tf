@@ -49,7 +49,7 @@ resource "aws_launch_configuration" "rev_test_lc" {
 }
 
 resource "aws_autoscaling_group" "rev_test_asg" {
-  name                 = "terraform-asg-node-app-${aws_launch_configuration.rev_test_lc.name}"
+  name                 = "terraform-asg-rev-test-${aws_launch_configuration.rev_test_lc.name}"
   launch_configuration = "${aws_launch_configuration.rev_test_lc.name}"
   availability_zones = ["${data.aws_availability_zones.allzones.names}"]
   min_size             = 1
