@@ -53,11 +53,17 @@ public class UserController {
     @GetMapping(value = "/createtable", produces = "application/json; charset=utf-8")
 	public String createUserTable()
 	{
-        Query query = entityManager.createNativeQuery("CREATE TABLE users ( id smallint unsigned not null auto_increment, user_name varchar(20), date_of_birth varchar(20), constraint pk_example primary key (id) ) ");
-        int res = query.executeUpdate();
-        if (res < 0) {
-            return "Cannot create table";
-        }
+    	int res = 0;
+    	try {
+    		Query query = entityManager.createNativeQuery("CREATE TABLE users ( id smallint unsigned not null auto_increment, user_name varchar(20), date_of_birth varchar(20), constraint pk_example primary key (id) ) ");
+    		res = query.executeUpdate();
+    		if (res < 0) {
+                return "Cannot create table";
+            }
+    	} catch (Exception e) {
+    		return e.toString();
+    	}
+        
         return "Table users created successfully";
 
 	}
