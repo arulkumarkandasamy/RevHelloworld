@@ -50,27 +50,7 @@ public class UserController {
 	public String getHealthCheck()
 	{
 		return "{ \"isWorking\" : true }";
-	}
-    
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
-    @GetMapping(value = "/createtable", produces = "application/json; charset=utf-8")
-	public String createUserTable()
-	{
-    	int res = 0;
-    	try {
-    		Query query = entityManager.createNativeQuery("CREATE TABLE users ( id smallint unsigned not null auto_increment, user_name varchar(20), date_of_birth varchar(20), constraint pk_example primary key (id) ) ");
-    		res = query.executeUpdate();
-    		if (res < 0) {
-                return "Cannot create table";
-            }
-    	} catch (Exception e) {
-    		return e.toString();
-    	}
-        
-        return "Table users created successfully";
-
-	}
-    
+	}    
 
 	
 	@GetMapping("/hello/{user_name}")
@@ -115,7 +95,7 @@ public class UserController {
 		LocalDate dobNextYear = LocalDate.of(now.getYear()+1, dob.getMonth(), dob.getDayOfMonth());
 		long daysBetween = 0;
 		
-		if (dob.isEqual(now)) {
+		if (dobCurrentYear.isEqual(now)) {
 			return ("Hello "+ user.getUserName() + "Happy Birthday!");
 		} else {
 			if (dobCurrentYear.isBefore(now)) {				
