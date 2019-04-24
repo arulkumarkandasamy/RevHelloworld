@@ -96,7 +96,7 @@ public class UserController {
 		long daysBetween = 0;
 		
 		if (dobCurrentYear.isEqual(now)) {
-			return ("Hello "+ user.getUserName() + "Happy Birthday!");
+			return ("Hello "+ user.getUserName() + " Happy Birthday!");
 		} else {
 			if (dobCurrentYear.isBefore(now)) {				
 				daysBetween = ChronoUnit.DAYS.between(now, dobNextYear);
