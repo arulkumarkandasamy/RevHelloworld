@@ -54,7 +54,7 @@ public class UserController {
 
 	
 	@GetMapping("/hello/{user_name}")
-	public ResponseEntity<?> getUser(@PathVariable(value = "user_name") String userName) {
+	public ResponseEntity<String> getUser(@PathVariable(value = "user_name") String userName) {
 		
 		User user = userRepository.findByUserName(userName);
 		
