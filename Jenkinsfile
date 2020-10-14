@@ -30,7 +30,7 @@ pipeline {
     stage('Create Packer AMI') {
         steps {
           withCredentials([
-            usernamePassword(credentialsId: 'ada90a34-30ef-47fb-8a7f-a97fe69ff93f', passwordVariable: 'AWS_SECRET', usernameVariable: 'AWS_KEY')
+            usernamePassword(credentialsId: 'arulawskey', passwordVariable: 'AWS_SECRET', usernameVariable: 'AWS_KEY')
           ]) {
             sh 'packer build -var aws_access_key=${AWS_KEY} -var aws_secret_key=${AWS_SECRET} packer/packer.json'
           }
@@ -43,8 +43,8 @@ pipeline {
                     s3Download(file: '${JENKINS_HOME}/workspace/helloworld/terraform', bucket: 'arulrevoulttest', path: 'terraform.tfstate', force:true)
                 } */
           withCredentials([
-            usernamePassword(credentialsId: 'ada90a34-30ef-47fb-8a7f-a97fe69ff93f', passwordVariable: 'AWS_SECRET', usernameVariable: 'AWS_KEY'),
-            usernamePassword(credentialsId: 'd89be1a3-ee54-480a-b022-05309bd1305c', passwordVariable: 'REPO_PASS', usernameVariable: 'REPO_USER'),
+            usernamePassword(credentialsId: 'arulawskey', passwordVariable: 'AWS_SECRET', usernameVariable: 'AWS_KEY'),
+            usernamePassword(credentialsId: 'arulgitrepo', passwordVariable: 'REPO_PASS', usernameVariable: 'REPO_USER'),
           ]) {
             sh '''
                cd terraform
